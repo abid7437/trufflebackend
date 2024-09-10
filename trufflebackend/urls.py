@@ -15,10 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from trufflebackend import views
 
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet,RegisterAPIView,LoginAPIView
+from rest_framework_simplejwt.views import TokenRefreshView
+
+router = DefaultRouter()
+router.register(r'apiusers', UserViewSet)
+
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('about-us/',views.aboutUs),
     path('login/',views.login),
@@ -28,4 +36,7 @@ urlpatterns = [
     path('users/',views.users),
     path('profile/',views.profile),
     path('users/<int:userid>',views.userDetail),
+      path('apiregister/', RegisterAPIView.as_view(), name='apiregister'),
+    path('apilogin/', LoginAPIView.as_view(), name='apilogin'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
