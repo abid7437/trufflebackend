@@ -57,16 +57,13 @@ class LoginAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.validated_data['username']
+            email = serializer.validated_data['email']
             password = serializer.validated_data['password']
             try:
-                user = User.objects.get(username=username)
-                if user.check_password(password):
-                    token = jwt.encode({
-                        'username': user.username,
-                        'email': user.email
-                    }, settings.SECRET_KEY, algorithm='HS256')
-                    return Response({'token': token}, status=status.HTTP_200_OK)
+                user = User.objects.get(email=email,password=password)
+                if user is not None and isinstance(user, User):
+                       refresh = RefreshToken.for_user(user)
+                       return Response({'access': str(refresh.access_token),'refresh': str(refresh)}, status=status.HTTP_200_OK)
                 else:
                     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
             except User.DoesNotExist:

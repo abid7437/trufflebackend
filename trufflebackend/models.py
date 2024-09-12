@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
 class User(AbstractBaseUser):
-    username = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
     email = models.EmailField()
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

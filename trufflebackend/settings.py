@@ -39,16 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
    'rest_framework',
     'trufflebackend',
+     'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'trufflebackend.urls'
@@ -146,3 +149,11 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# Allow all origins (for development purposes)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# OR, allow specific origins
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
