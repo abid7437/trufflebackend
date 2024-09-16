@@ -19,7 +19,7 @@ from django.urls import path,include
 from trufflebackend import views
 
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet,RegisterAPIView,LoginAPIView
+from .views import UserViewSet,RegisterAPIView,LoginAPIView,ContactUsAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 router = DefaultRouter()
@@ -36,7 +36,8 @@ urlpatterns = [
     path('users/',views.users),
     path('profile/',views.profile),
     path('users/<int:userid>',views.userDetail),
-      path('apiregister/', RegisterAPIView.as_view(), name='apiregister'),
+    path('apiregister/', RegisterAPIView.as_view(), name='apiregister'),
+    path('apicontactus/', ContactUsAPIView.as_view(), name='apicontactus'),
     path('apilogin/', LoginAPIView.as_view(), name='apilogin'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

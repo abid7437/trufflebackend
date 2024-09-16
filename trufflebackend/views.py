@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import User
+from .models import User,ContactUs
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework import generics, status,viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializer,RegisterSerializer,LoginSerializer
+from .serializers import UserSerializer,RegisterSerializer,LoginSerializer,ContactUsSerializer
 from django.conf import settings
 import jwt
 
@@ -50,6 +50,17 @@ class RegisterAPIView(generics.CreateAPIView):
         if serializer.is_valid():
             user = serializer.save()
             return Response(RegisterSerializer(user).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class ContactUsAPIView(generics.CreateAPIView):
+    serializer_class = ContactUsSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            contactus = serializer.save()
+            return Response(ContactUsSerializer(contactus).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
